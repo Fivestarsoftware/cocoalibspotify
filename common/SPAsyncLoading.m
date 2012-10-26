@@ -69,8 +69,17 @@ static NSMutableArray *observerCache;
 	
 	BOOL allLoaded = YES;
 	for (id <SPAsyncLoading> item in items)
-		allLoaded &= item.isLoaded;
-	
+    {
+        if ([item isEqual:[NSNull null]])
+        {
+            continue;
+        }
+        else
+        {
+            allLoaded &= item.isLoaded;
+        }
+    }
+
 	if (allLoaded) {
 		if (block) dispatch_async(dispatch_get_main_queue(), ^() { block(items); });
 		return nil;
@@ -165,8 +174,17 @@ static NSMutableArray *observerCache;
         
 		BOOL allLoaded = YES;
 		for (id <SPAsyncLoading> item in self.observedItems)
-			allLoaded &= item.isLoaded;
-		
+        {
+            if ([item isEqual:[NSNull null]])
+            {
+                continue;
+            }
+            else
+            {
+                allLoaded &= item.isLoaded;
+            }
+        }
+
 		if (allLoaded) {
 			
 			[NSObject cancelPreviousPerformRequestsWithTarget:self
